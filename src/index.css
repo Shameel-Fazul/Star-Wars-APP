@@ -23,6 +23,7 @@ button{
   color: #ccc;
   font-size: 1.2em;
   cursor: pointer;
+  text-transform: uppercase;
 }
 button:hover{
   color: #fff;
@@ -45,3 +46,20 @@ button:hover{
   margin: 10px 0;
   color: #ffff57;
 }
+.loading {
+  font-family: sans-serif;
+  color: #ddd;
+  text-align: center;
+  padding-top: 100px;
+  font-size: 2em;
+  letter-spacing: 2px;
+}
+.error {
+  font-family: sans-serif;
+  color: #c71818;
+  text-align: center;
+  padding-top: 100px;
+  font-size: 2em;
+  letter-spacing: 2px;
+}
+

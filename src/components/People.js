@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query' // useQuery Hook to manage our asynchronous data.
 import Person from './Person';
 
-const fetchPeople = async () => {
-    const res = await fetch('http://swapi.dev/api/people/');
+const fetchPeople = async (key, page) => {
+    const res = await fetch(`http://swapi.dev/api/people/?page=${page}`);
     return res.json(); //use the json() method to access the data after fetching.
 }
 
 const People = () => {
-    const { data, status } = useQuery('people', fetchPeople);
+    const [page, setPage ] = useState(1);
+    const { data, status } = useQuery(['people', page], fetchPeople);
     console.log(data);
     return (
         <div>
             <h2>People</h2>
-            { status === 'loading' && ( <div>Loading data...</div> )}
-            { status === 'error' && ( <div>Error fetching data</div> )}
+
+            <button onClick={ () => setPage(1) }>1</button>
+            <button onClick={ () => setPage(2) }>2</button>
+            <button onClick={ () => setPage(3) }>3</button>
+            <button onClick={ () => setPage(4) }>4</button>
+            <button onClick={ () => setPage(5) }>5</button>
+            <button onClick={ () => setPage(6) }>6</button>
+            <button onClick={ () => setPage(7) }>7</button>
+            <button onClick={ () => setPage(8) }>8</button>
+            <button onClick={ () => setPage(9) }>9</button>
+
+            { status === 'loading' && ( <div className="loading">Loading data...</div> )}
+            { status === 'error' && ( <div className="error">Error fetching data</div> )}
             { status === 'success' && (
                 <div>
                     { data.results.map(person => <Person key={ person.name } person={ person }/>) }

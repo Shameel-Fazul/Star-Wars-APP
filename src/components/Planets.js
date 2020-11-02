@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query' // useQuery Hook to manage our asynchronous data.
 import Planet from './Planet';
 
-const fetchPlanets = async () => {
-    const res = await fetch('http://swapi.dev/api/planets/');
+const fetchPlanets = async (key, greeting, page) => {
+    //console.log(greeting);
+    const res = await fetch(`http://swapi.dev/api/planets/?page=${page}`);
     return res.json(); //use the json() method to access the data after fetching.
 }
 
 const Planets = () => {
-    const { data, status } = useQuery('planets', fetchPlanets);
-    console.log(data);
+    const [page, setPage] = useState(1);
+                                      // Query Variable using [...]
+    const { data, status } = useQuery(['planets', 'hello shameel praram', page], fetchPlanets, {
+        scaleTime:0, // How long for the fetched data to stay fresh.
+        //cacheTime: 10, // How long to keep cached data.
+        onSuccess: () => console.log('data fetched with no problems.') // Callback function on success.
+    });
+    //console.log(data);
     return (
         <div>
             <h2>Planets</h2>
-            { status === 'loading' && ( <div>Loading data...</div> )}
-            { status === 'error' && ( <div>Error fetching data</div> )}
+
+            <button onClick={ () => setPage(1) }>1</button>
+            <button onClick={ () => setPage(2) }>2</button>
+            <button onClick={ () => setPage(3) }>3</button>
+            <button onClick={ () => setPage(4) }>4</button>
+            <button onClick={ () => setPage(5) }>5</button>
+            <button onClick={ () => setPage(6) }>6</button>
+
+            { status === 'loading' && ( <div className="loading">Loading data...</div> )}
+            { status === 'error' && ( <div className="error">Error fetching data</div> )}
             { status === 'success' && (
                 <div>
                     { data.results.map(planet => <Planet key={ planet.name } planet={ planet } />) }
